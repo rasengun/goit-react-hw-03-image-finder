@@ -40,6 +40,11 @@ export class App extends Component {
       this.setState({ error: error.message });
     } finally {
       this.setState({ loading: false });
+
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
     }
   }
 
