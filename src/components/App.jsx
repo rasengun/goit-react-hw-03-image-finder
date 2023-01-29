@@ -1,13 +1,13 @@
 import '../styles.css';
 
 import { Component } from 'react';
-import axios from 'axios';
 import { Audio } from 'react-loader-spinner';
 
 import ImageSearchForm from './ImageSearchForm/ImageSearchForm';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import Modal from './Modal/Modal';
+import { searchImageAPI } from 'services/api';
 
 export class App extends Component {
   state = {
@@ -22,24 +22,24 @@ export class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { search, page } = this.state;
-    const API_KEY = '33190889-c566a33fbd0a8c43c551e11d7';
 
     if (prevState.search !== search || prevState.page !== page) {
-      this.setState({ loading: true });
+      this.fetchPosts();
+    }
+  }
 
-      axios
-        .get(
-          `https://pixabay.com/api/?q=${search}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
-        )
-        .then(({ data }) => {
-          this.setState(({ images }) => ({
-            images: [...images, ...data.hits],
-          }));
-        })
-        .catch(error => {
-          this.setState({ error: error.message });
-        })
-        .finally(this.setState({ loading: false }));
+  async fetchPosts() {
+    try {
+      this.setState({ loading: true });
+      const { search, page } = this.state;
+      const data = await searchImageAPI(search, page);
+      this.setState(({ images }) => ({
+        images: [...images, ...data.hits],
+      }));
+    } catch (error) {
+      this.setState({ error: error.message });
+    } finally {
+      this.setState({ loading: false });
     }
   }
 
