@@ -16,7 +16,7 @@ class ImageSearchForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { onSubmit } = this.props;
-    onSubmit(this.state.search);
+    onSubmit({ ...this.state });
     this.reset();
   };
 
@@ -30,16 +30,16 @@ class ImageSearchForm extends Component {
 
     return (
       <header className="searchbar">
-        <form className="form" onSubmit={handleSubmit}>
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
+        <form className="searchForm" onSubmit={handleSubmit}>
+          <button type="submit" className="searchForm-button">
+            <span className="searchForm-button-label">Search</span>
           </button>
 
           <input
             onChange={handleChange}
             value={search}
             name="search"
-            className="input"
+            className="searchForm-input"
             type="text"
             autoComplete="off"
             autoFocus

@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
+
 import '../../styles.css';
 
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
-const ImageGallery = ({ images }) => {
+const ImageGallery = ({ images, showImage }) => {
   return (
     <ul className="imageGallery">
       {images.map(({ id, webformatURL, largeImageURL }) => {
@@ -11,6 +13,7 @@ const ImageGallery = ({ images }) => {
             key={id}
             preview={webformatURL}
             fullSize={largeImageURL}
+            showImage={showImage}
           />
         );
       })}
@@ -22,4 +25,9 @@ export default ImageGallery;
 
 ImageGallery.defaultProps = {
   images: [],
+};
+
+ImageGallery.propTypes = {
+  images: PropTypes.array.isRequired,
+  showImage: PropTypes.func.isRequired,
 };
