@@ -28,6 +28,16 @@ export class App extends Component {
     }
   }
 
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    const { images } = this.state;
+    if (prevState.images.length < images.length) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }
+
   async fetchPosts() {
     try {
       this.setState({ loading: true });
@@ -40,11 +50,6 @@ export class App extends Component {
       this.setState({ error: error.message });
     } finally {
       this.setState({ loading: false });
-
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-      });
     }
   }
 
