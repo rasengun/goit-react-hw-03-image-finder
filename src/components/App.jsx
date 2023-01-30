@@ -26,11 +26,8 @@ export class App extends Component {
     if (prevState.search !== search || prevState.page !== page) {
       this.fetchPosts();
     }
-  }
 
-  getSnapshotBeforeUpdate(prevProps, prevState) {
-    const { images } = this.state;
-    if (prevState.images.length < images.length) {
+    if (page > 1) {
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth',
